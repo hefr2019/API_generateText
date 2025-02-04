@@ -1,0 +1,82 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "GPT-2 Text Generation API",
+      "description": "API for generating text using GPT-2. This API takes a prompt text and returns the generated output from the GPT-2 model.",
+      "version": "1.0.0"
+    },
+    "host": "127.0.0.1:5000",
+    "basePath": "/",
+    "schemes": ["http"],
+    "paths": {
+      "/predict": {
+        "post": {
+          "summary": "Generate text using GPT-2",
+          "description": "Takes a prompt and returns generated text. You can specify how long the generated text should be.",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "The prompt text to generate from.",
+                    "example": "Once upon a time"
+                  },
+                  "max_length": {
+                    "type": "integer",
+                    "description": "Maximum number of tokens (words and punctuation) to generate. Default is 100 if not specified.",
+                    "example": 50
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          ],
+          "responses": {
+          "200": {
+            "description": "Successfully generated text",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "generated_text": {
+                  "type": "string",
+                  "description": "The generated text based on the input prompt."
+                }
+              }
+            }
+          },
+            "400": {
+            "description": "Bad Request - Invalid input data or missing required fields",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Description of the error."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Model inference failed or unexpected error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Description of the internal error."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
